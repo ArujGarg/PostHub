@@ -1,4 +1,10 @@
 @import "tailwindcss";
+
 body {
+  overflow: hidden;
+}
+
+html {
+  overflow: auto;
   overscroll-behavior: contain;
 }

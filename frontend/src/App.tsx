@@ -1,4 +1,6 @@
 import BackgroundBeamsDemo from '../components/background-beams-demo'
+import { BrowserRouter } from "react-router-dom"
+
 
 import './App.css'
 
@@ -6,9 +8,11 @@ function App() {
 
 
   return (
-    <>
-      <BackgroundBeamsDemo />
-    </>
+    <div>
+      <BrowserRouter>
+        <BackgroundBeamsDemo />
+      </BrowserRouter>
+    </div>
   )
 }
 
