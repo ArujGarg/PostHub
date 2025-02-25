@@ -1,12 +1,12 @@
 export const Navbar = () => {
-    return <div>
-        <nav className="bg-neutral-950 border-b border-neutral-800">
+    return <div >
+        <nav className="bg-neutral-900 border-b border-neutral-800 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">
                     PostHub
                 </span>
             <div className="hidden w-full md:block md:w-auto  " id="navbar-default">
-            <ul className="font-medium flex flex-row p-4 md:p-0 mt-4 border rounded-lg bg-neutral-950  md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 items-center ">
+            <ul className="font-medium flex flex-row p-4 md:p-0 mt-4 border rounded-lg bg-neutral-900  md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 items-center ">
                     <div className="border-1 px-2 border-neutral-800 cursor-pointer  hover:bg-gradient-to-r from-indigo-500 to-purple-500 rounded-sm">
                         <svg className="my-2" width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FFFFFF" strokeWidth={3}>
                         <path d="M8 24h40v24a8 8 0 0 1-8 8H16a8 8 0 0 1-8-8V24z"/><line x1="28" y1="16" x2="28" y2="8"/><line x1="16" y1="16" x2="16" y2="8"/><line x1="40" y1="16" x2="40" y2="8"/>
