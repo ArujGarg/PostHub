@@ -2,8 +2,8 @@ export const Navbar = () => {
     return <div >
         <nav className="bg-neutral-900 border-b border-neutral-800 ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <span className="self-center text-3xl font-semibold whitespace-nowrap cursor-pointer text-white">
-                    PostHub
+                <span className="self-center text-4xl font-bold whitespace-nowrap cursor-pointer text-white">
+                    P<span className="text-purple-500">H</span>
                 </span>
             <div className="hidden w-full md:block md:w-auto  " id="navbar-default">
                 <ul className="font-medium flex flex-row p-4 md:p-0 mt-4 border rounded-lg bg-neutral-900  md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 items-center ">
