@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 
 
@@ -12,12 +12,18 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { BackgroundBeams } from "../../components/ui/background-beams";
 import { Link } from "react-router-dom";
+import { SigninInput } from "@arujgarg/posthub-common";
 
 export function SigninFormDemo() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form submitted");
   };
+  const [postInputs, setPostInputs] = useState<SigninInput>({
+    email: "",
+    username: "",
+    password: ""
+  })
   return (
     <div className="">
       <div className="fixed inset-0 -z-10 bg-neutral-900 h-screen ">
@@ -37,11 +43,21 @@ export function SigninFormDemo() {
         <form className="my-8" onSubmit={handleSubmit}>
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email or username</Label>
-            <Input id="email" placeholder="johndoe@gmail.com" type="email" />
+            <Input id="email" placeholder="johndoe@gmail.com" type="email" onChange={e => {
+              setPostInputs({
+                ...postInputs,
+                email: e.target.value
+              })
+            }} />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" placeholder="••••••••" type="password" />
+            <Input id="password" placeholder="••••••••" type="password" onChange={e => {
+              setPostInputs({
+                ...postInputs,
+                password: e.target.value
+              })
+            }} />
           </LabelInputContainer>
 
           <button

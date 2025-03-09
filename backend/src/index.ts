@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { userRouter } from './routes/userRoutes'
 import { postRouter } from './routes/postRoutes'
+import { cors } from 'hono/cors'
 
 
 
@@ -11,6 +12,7 @@ const app = new Hono<{
   }
 }>()
 
+app.use('/*', cors());
 app.route('/api/v1/user', userRouter);
 app.route('/api/v1/post', postRouter)
 
