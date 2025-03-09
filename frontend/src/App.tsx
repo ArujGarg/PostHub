@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import './App.css'
 import { SignupFormDemo } from './pages/Signup'
 import { SigninFormDemo } from './pages/Signin'
+import { Home } from './pages/Home'
+
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
           <Route path='/landing' element={<BackgroundBeamsDemo />} />
           <Route path='/signup' element={<SignupFormDemo />} />
           <Route path='/signin' element={<SigninFormDemo />} />
+          <Route path='/home' element={<Home />} />
         </Routes>
       </BrowserRouter>
     </div>

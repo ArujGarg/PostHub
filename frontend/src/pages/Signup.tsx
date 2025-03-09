@@ -37,6 +37,7 @@ export function SignupFormDemo() {
 
     } catch (error) {
       //alert user that the request failed
+      alert("error while signing up")
     }
   }
 
