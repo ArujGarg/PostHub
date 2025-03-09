@@ -10,7 +10,7 @@ export function Home(){
                 <ProfileSection />
             </div>
             <div className="h-screen col-span-6  flex flex-col">
-                <div className="h-16 border border-neutral-800 flex items-center justify-center font-bold text-xl">
+                <div className="h-16 border border-neutral-900 flex items-center justify-center font-bold text-xl">
                     Following
                 </div>
                 <div className="flex-1 overflow-y-auto ">
