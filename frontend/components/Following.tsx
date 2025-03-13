@@ -1,12 +1,25 @@
-import { Post } from "./Post";
+import { usePosts } from "../src/hooks";
+import { PostCard } from "./PostCard";
+
 
 export function Following(){
+    const {loading, posts} = usePosts();
+
+    if(loading){
+        return <div>Loading...</div>    
+    }
     return (
-        <div className="bg-neutral-900 w-full h-full border border-neutral-800">
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+        <div className="bg-neutral-900 w-full h-full border-x border-neutral-800">
+            {posts.map(post => <PostCard
+                profilePic={post.author.profilePic}
+                username={post.author.username}
+                name={post.author.name}
+                content={post.content}
+                likeCount={post.likeCount}
+                commentCount={post.commentCount}
+                publishedAt={post.publishedAt}
+                updatedAt={post.updatedAt}
+            />)}
         </div>
     )
 }
