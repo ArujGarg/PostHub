@@ -127,9 +127,26 @@ postRouter.get('/:id', async (c) => {
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
     const id = c.req.param('id');
-    const post = await prisma.post.findFirst({
+    const post = await prisma.post.findUnique({
         where: {
             id: Number(id)
+        },
+        select: {
+            content: true,
+            updatedAt: true,
+            createdAt: true,
+            likeCount: true,
+            commentCount: true,
+            authorId: true,
+            id: true,
+            author: {
+               select: {
+                name: true,
+                username: true,
+                profilePic: true
+               }
+            }
+
         }
     })
     return c.json(post);

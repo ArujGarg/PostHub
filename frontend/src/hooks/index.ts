@@ -13,7 +13,8 @@ type PostType = {
     commentCount: number,
     content: string,
     publishedAt: string,
-    updatedAt: string
+    updatedAt: string,
+    id: number
 }
 
 export const usePosts = () => {
@@ -36,4 +37,28 @@ export const usePosts = () => {
         loading,
         posts
     })
+}
+
+
+export const usePost = (id: number) => {
+    const [loading, setLoading] = useState(true);
+    const [post, setPost] = useState<PostType>();
+
+    useEffect(() => {
+        axios.get(`${BACKEND_URL}/api/v1/post/${id}`, {
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
+        .then(response => {
+            setPost(response.data)
+            setLoading(false)
+        })
+
+    }, [id]);
+
+    return {
+        loading,
+        post
+    }
 }

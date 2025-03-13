@@ -11,6 +11,7 @@ export function Following(){
     return (
         <div className="bg-neutral-900 w-full h-full border-x border-neutral-800">
             {posts.map(post => <PostCard
+                id={post.id}
                 profilePic={post.author.profilePic}
                 username={post.author.username}
                 name={post.author.name}
