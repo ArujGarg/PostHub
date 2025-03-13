@@ -17,6 +17,9 @@ export function Home(){
                     <Following  />
                 </div>
             </div>
+            <div className="h-screen col-span-3 flex justify-center items-center text-3xl">
+                Will add something here...
+            </div>
         </div>
     )
 }

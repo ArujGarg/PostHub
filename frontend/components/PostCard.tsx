@@ -48,9 +48,6 @@ export function PostCard({
                     {content}
                 </div>
                 <div className="flex">
-                    <div>
-
-                    </div>
                     <div className="flex  mt-4 mx-4 mb-2">
                         <div className="flex items-center mx-4 hover:fill-purple-500 fill-none">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="white" className="size-5">
@@ -69,8 +66,6 @@ export function PostCard({
                             {likeCount}
                             </div>
                         </div>
-                        
-
                     </div>
                 </div>
             </div>

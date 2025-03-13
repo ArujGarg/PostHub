@@ -1,6 +1,8 @@
-import { ReactNode } from "react"
+import { ReactNode, useState } from "react"
 
 export function Sidebar(){
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <div className="bg-neutral-900 border border-neutral-800 w-full h-2/3 flex flex-col items-center gap-8">
             <div className="">
@@ -39,9 +41,46 @@ export function Sidebar(){
                 </div>
             </div>
             <div className="m-2">
-                <button type="button" className="text-white w-40 bg-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-purple-700 dark:focus:ring-purple-900 cursor-pointer">Post</button>
+                <button onClick={() => {
+                    setShowModal(true)
+                }} type="button" className="text-white w-40 bg-purple-500 focus:outline-none  font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-purple-700 cursor-pointer">Post</button>
+                {showModal && (
+                    <div className=" flex justify-center fixed bg-black/30 min-h-screen w-screen h-screen z-10 text-white top-0 left-0">
+                        <div className="flex justify-center items-center">
+                            <PostComponent setShowModal={setShowModal}  />
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
+    )
+}
+
+
+
+
+function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void}){
+    return (
+        <div className="bg-neutral-900 rounded-2xl w-150 shadow-lg shadow-black " >
+            <div className="px-20 py-10 w-full ">
+            <div className="relative w-full min-w-[200px]">
+                <textarea
+                className="peer h-full w-full min-h-[100px] w-full resize-none border-b-2 border-gray-400 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-violet-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-violet-500 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-red-500 placeholder:text-2xl caret-violet-500 caret-bold"
+                placeholder="What's on your mind? ">
+                </textarea>
+               
+            </div>
+             </div>
+             <div className="flex gap-4 m-6">
+                <div className="text-white w-20 bg-purple-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-purple-700 cursor-pointer">
+                    <button>Post</button>
+                </div>
+                <div onClick={() => setShowModal(false)} className="text-white w-25 bg-gray-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-gray-700 cursor-pointer">
+                    <button>Cancel</button>
+                </div>
+            </div>
+        </div>
+       
     )
 }
 

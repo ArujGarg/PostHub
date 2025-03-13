@@ -1,4 +1,5 @@
 export function ProfileSection(){
+    
     return (
         <div className="bg-neutral-900 border border-neutral-800 w-full h-1/3 flex flex-col items-center ">
             <div className="flex  items-center flex-1">
@@ -17,7 +18,7 @@ export function ProfileSection(){
                </div>
             </div>
             <div className="mb-8">
-                <button type="button" className="text-white w-40 bg-red-500 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-red-700 dark:focus:ring-purple-900 cursor-pointer">Log Out</button>
+                <button type="button" className="text-white w-40 bg-red-500 focus:outline-none  font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-red-700 cursor-pointer">Log Out</button>
             </div>
         </div>
     )
