@@ -21,21 +21,36 @@ export const usePosts = () => {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<PostType[]>([]);
 
-    useEffect(() => {
+    const fetchPosts = () => {
         axios.get(`${BACKEND_URL}/api/v1/post/home`, {
             headers: {
                 Authorization: localStorage.getItem("token")
             }
-        })
-        .then(response => {
+        }).then(response => {
+            console.log(response)
             setPosts(response.data.posts);
-            setLoading(false);
+            setLoading(false)
+        }).catch(error => {
+            console.error(error);
+            console.log(BACKEND_URL)
+            setLoading(false)
         })
+    }
+    
+
+    useEffect(() => {
+        fetchPosts();
     }, [])
+
+    const addNewPost = (newPost: PostType) => {
+        setPosts(prevPosts => [newPost, ...prevPosts])
+        fetchPosts();
+    }
 
     return ({
         loading,
-        posts
+        posts,
+        addNewPost
     })
 }
 

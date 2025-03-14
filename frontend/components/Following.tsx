@@ -10,7 +10,7 @@ export function Following(){
     }
     return (
         <div className="bg-neutral-900 w-full h-full border-x border-neutral-800">
-            {posts.map(post => <PostCard
+            {posts.slice(0).reverse().map(post => <PostCard
                 id={post.id}
                 profilePic={post.author.profilePic}
                 username={post.author.username}

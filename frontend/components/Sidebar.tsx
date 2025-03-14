@@ -1,4 +1,8 @@
+import axios  from "axios";
 import { ReactNode, useState } from "react"
+import { Link } from "react-router-dom";
+import { BACKEND_URL } from "../config";
+import {  usePosts } from "../src/hooks";
 
 export function Sidebar(){
     const [showModal, setShowModal] = useState(false);
@@ -13,9 +17,11 @@ export function Sidebar(){
                 </div>
                 <div className="flex flex-col gap-4">
                     <div>
-                        <SidebarElement svg={<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 24 24" fill="white">
-                            <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"></path>
-                        </svg>} text="Home" />
+                        <Link to={'/home'}>
+                            <SidebarElement  svg={<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 24 24" fill="white">
+                                <path d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 10 21 L 10 14 L 14 14 L 14 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z"></path>
+                            </svg>} text="Home" />
+                        </Link>
                     </div>
                     <div>
                         <SidebarElement svg={<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50" fill="white">
@@ -60,11 +66,15 @@ export function Sidebar(){
 
 
 function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void}){
+    const [content, setContent] = useState("");
+    const {addNewPost} = usePosts();
     return (
         <div className="bg-neutral-900 rounded-2xl w-150 shadow-lg shadow-black " >
             <div className="px-20 py-10 w-full ">
             <div className="relative w-full min-w-[200px]">
-                <textarea
+                <textarea onChange={(e) => {
+                    setContent(e.target.value);
+                }}
                 className="peer h-full w-full min-h-[100px] w-full resize-none border-b-2 border-gray-400 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-violet-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-violet-500 focus:outline-0 disabled:resize-none disabled:border-0 disabled:bg-red-500 placeholder:text-2xl caret-violet-500 caret-bold"
                 placeholder="What's on your mind? ">
                 </textarea>
@@ -73,7 +83,16 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
              </div>
              <div className="flex gap-4 m-6">
                 <div className="text-white w-20 bg-purple-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-purple-700 cursor-pointer">
-                    <button>Post</button>
+                    <button onClick={() => {
+                        axios.post(`${BACKEND_URL}/api/v1/post`,{content}, {
+                            headers: {
+                                Authorization: localStorage.getItem("token")
+                            }
+                        }).then(response => {
+                            setShowModal(false);
+                            addNewPost(response.data.post)
+                        })
+                    }} >Post</button>
                 </div>
                 <div onClick={() => setShowModal(false)} className="text-white w-25 bg-gray-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-gray-700 cursor-pointer">
                     <button>Cancel</button>
