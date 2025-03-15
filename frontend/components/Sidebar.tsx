@@ -3,6 +3,8 @@ import { ReactNode, useState } from "react"
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import {  usePosts } from "../src/hooks";
+import Spinner from 'react-bootstrap/Spinner';
+import {useNavigate} from "react-router-dom"
 
 export function Sidebar(){
     const [showModal, setShowModal] = useState(false);
@@ -67,7 +69,10 @@ export function Sidebar(){
 
 function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void}){
     const [content, setContent] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const {addNewPost} = usePosts();
+    
     return (
         <div className="bg-neutral-900 rounded-2xl w-150 shadow-lg shadow-black " >
             <div className="px-20 py-10 w-full ">
@@ -82,18 +87,29 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
             </div>
              </div>
              <div className="flex gap-4 m-6">
-                <div className="text-white w-20 bg-purple-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-purple-700 cursor-pointer">
-                    <button onClick={() => {
-                        axios.post(`${BACKEND_URL}/api/v1/post`,{content}, {
-                            headers: {
-                                Authorization: localStorage.getItem("token")
-                            }
-                        }).then(response => {
-                            setShowModal(false);
-                            addNewPost(response.data.post)
-                        })
-                    }} >Post</button>
-                </div>
+                <Link to={'/home'}>
+                    <div className="text-white w-20 bg-purple-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-purple-700 cursor-pointer">
+                        <button onClick={() => {
+                            setLoading(true)
+                            setTimeout(() => {
+                                axios.post(`${BACKEND_URL}/api/v1/post`,{content}, {
+                                    headers: {
+                                        Authorization: localStorage.getItem("token")
+                                    }
+                                }).then(response => {
+                                    setShowModal(false);
+                                    setLoading(false)
+                                    addNewPost(response.data.post)
+                                }).catch(error => {
+                                    console.error(error);
+                                    setLoading(false)
+                                })
+                            }, 0);
+                            navigate('/home')
+                            
+                        }} >{loading ?  <Spinner variant="light" animation="border" size="sm" style={{width: "20px", height: "20px", display: "block"}}/> : 'Post'}</button>
+                    </div>
+                </Link>
                 <div onClick={() => setShowModal(false)} className="text-white w-25 bg-gray-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-gray-700 cursor-pointer">
                     <button>Cancel</button>
                 </div>

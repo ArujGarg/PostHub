@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { BACKEND_URL } from "../../config";
 
 
@@ -21,7 +21,7 @@ export const usePosts = () => {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<PostType[]>([]);
 
-    const fetchPosts = () => {
+    const fetchPosts = useCallback(() => {
         axios.get(`${BACKEND_URL}/api/v1/post/home`, {
             headers: {
                 Authorization: localStorage.getItem("token")
@@ -35,16 +35,18 @@ export const usePosts = () => {
             console.log(BACKEND_URL)
             setLoading(false)
         })
-    }
+    }, [])
     
 
     useEffect(() => {
         fetchPosts();
-    }, [])
+    }, [fetchPosts])
 
     const addNewPost = (newPost: PostType) => {
         setPosts(prevPosts => [newPost, ...prevPosts])
-        fetchPosts();
+        setTimeout(() => {
+            fetchPosts()
+        }, 2000);
     }
 
     return ({
