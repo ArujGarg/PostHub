@@ -27,12 +27,10 @@ export const usePosts = () => {
                 Authorization: localStorage.getItem("token")
             }
         }).then(response => {
-            console.log(response)
             setPosts(response.data.posts);
             setLoading(false)
         }).catch(error => {
             console.error(error);
-            console.log(BACKEND_URL)
             setLoading(false)
         })
     }, [])

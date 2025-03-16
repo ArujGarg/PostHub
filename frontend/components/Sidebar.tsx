@@ -1,10 +1,10 @@
 import axios  from "axios";
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import {  usePosts } from "../src/hooks";
-import Spinner from 'react-bootstrap/Spinner';
 import {useNavigate} from "react-router-dom"
+
 
 export function Sidebar(){
     const [showModal, setShowModal] = useState(false);
@@ -72,6 +72,11 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const {addNewPost} = usePosts();
+
+    useEffect(() => {
+        console.log("Updated loading state:", loading);
+    }, [loading]); // Logs whenever `loading` changes
+
     
     return (
         <div className="bg-neutral-900 rounded-2xl w-150 shadow-lg shadow-black " >
@@ -100,14 +105,16 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
                                     setShowModal(false);
                                     setLoading(false)
                                     addNewPost(response.data.post)
+                                    navigate('/home')
                                 }).catch(error => {
                                     console.error(error);
                                     setLoading(false)
                                 })
                             }, 0);
-                            navigate('/home')
                             
-                        }} >{loading ?  <Spinner variant="light" animation="border" size="sm" style={{width: "20px", height: "20px", display: "block"}}/> : 'Post'}</button>
+                            
+                        }} >
+                            {loading ? <span className="loading loading-spinner loading-sm"></span>: 'Post'}</button>
                     </div>
                 </Link>
                 <div onClick={() => setShowModal(false)} className="text-white w-25 bg-gray-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-gray-700 cursor-pointer">

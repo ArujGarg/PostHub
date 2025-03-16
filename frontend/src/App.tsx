@@ -7,6 +7,7 @@ import { Home } from './pages/Home'
 import { Post } from './pages/Post'
 
 
+
 function App() {
 
 
@@ -18,7 +19,7 @@ function App() {
           <Route path='/signup' element={<SignupFormDemo />} />
           <Route path='/signin' element={<SigninFormDemo />} />
           <Route path='/home' element={<Home />} />
-          <Route path='/blog/:id' element={<Post/>} />
+          <Route path='/post/:id' element={<Post/>} />
         </Routes>
       </BrowserRouter>
     </div>
