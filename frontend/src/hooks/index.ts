@@ -28,23 +28,20 @@ export const usePosts = () => {
             }
         }).then(response => {
             setPosts(response.data.posts);
-            setLoading(false)
         }).catch(error => {
             console.error(error);
             setLoading(false)
-        })
+        }).finally(() => setLoading(false))
     }, [])
     
 
     useEffect(() => {
         fetchPosts();
-    }, [fetchPosts])
+    }, [[posts]])
 
     const addNewPost = (newPost: PostType) => {
         setPosts(prevPosts => [newPost, ...prevPosts])
-        setTimeout(() => {
-            fetchPosts()
-        }, 2000);
+        fetchPosts()
     }
 
     return ({

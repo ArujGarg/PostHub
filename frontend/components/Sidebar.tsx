@@ -96,21 +96,20 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
                     <div className="text-white w-20 bg-purple-500 focus:outline-none  font-medium rounded-full text-md  py-3 text-center  hover:bg-purple-700 cursor-pointer">
                         <button onClick={() => {
                             setLoading(true)
-                            setTimeout(() => {
                                 axios.post(`${BACKEND_URL}/api/v1/post`,{content}, {
                                     headers: {
                                         Authorization: localStorage.getItem("token")
                                     }
                                 }).then(response => {
-                                    setShowModal(false);
-                                    setLoading(false)
                                     addNewPost(response.data.post)
-                                    navigate('/home')
                                 }).catch(error => {
                                     console.error(error);
                                     setLoading(false)
-                                })
-                            }, 0);
+                                }).finally(() =>{
+                                    setShowModal(false); 
+                                    setLoading(false);
+                                }) 
+
                             
                             
                         }} >

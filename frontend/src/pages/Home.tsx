@@ -11,7 +11,7 @@ export function Home(){
             </div>
             <div className="h-screen col-span-6  flex flex-col">
                 <div className="h-16 border border-neutral-800 flex items-center justify-center font-bold text-xl">
-                    Following
+                    Feed
                 </div>
                 <div className="flex-1 overflow-y-auto ">
                     <Following  />
