@@ -22,6 +22,7 @@ export function SigninFormDemo() {
     console.log("Form submitted");
   };
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [postInputs, setPostInputs] = useState<SigninInput>({
     email: "",
     username: "",
@@ -29,6 +30,7 @@ export function SigninFormDemo() {
   })
 
   async function sendRequest(){
+    setLoading(true);
     try {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, postInputs);
       const jwt = response.data;
@@ -36,6 +38,8 @@ export function SigninFormDemo() {
       navigate('/home')
     } catch (error) {
       alert("error while signing in")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -79,8 +83,7 @@ export function SigninFormDemo() {
             onClick={sendRequest}
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] cursor-pointer"
             type="submit"
-          >
-            Sign in &rarr;
+          >{loading ? <span className="loading loading-spinner loading-sm"></span> : 'Sign in \u2192'}
             <BottomGradient />
           </button>
 

@@ -5,6 +5,7 @@ import { SignupFormDemo } from './pages/Signup'
 import { SigninFormDemo } from './pages/Signin'
 import { Home } from './pages/Home'
 import { Post } from './pages/Post'
+import { SearchComp } from './pages/Search'
 
 
 
@@ -20,6 +21,7 @@ function App() {
           <Route path='/signin' element={<SigninFormDemo />} />
           <Route path='/home' element={<Home />} />
           <Route path='/post/:id' element={<Post/>} />
+          <Route path='/search' element={<SearchComp />} />
         </Routes>
       </BrowserRouter>
     </div>

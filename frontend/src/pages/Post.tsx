@@ -17,7 +17,7 @@ export function Post(){
                     </div>
                     <div className="h-screen col-span-6  flex justify-center flex-col border-x border-neutral-800">
                         <div className=" border-x border-neutral-800 flex justify-center items-center">
-                            <span className=" h-40 w-40 loading loading-infinity loading-xl"></span>
+                            <span className=" h-20 w-20 loading loading-infinity loading-xl"></span>
                         </div>
                     </div>
                     <div className="flex items-center justify-center text-3xl mt-20">
