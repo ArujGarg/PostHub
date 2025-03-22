@@ -91,3 +91,45 @@ userRouter.post('/signin', async (c) => {
     return c.text("error while signing in");
   }
 })
+
+
+
+userRouter.get('/search', async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+}).$extends(withAccelerate())
+
+  const query = c.req.query('query') || ""
+  if(!query) return c.json([]);
+
+  const users = await prisma.user.findMany({
+    where: {
+      OR: [
+        {
+          username: {
+            startsWith: query,
+            mode: "insensitive"
+          }
+        },
+        {
+          name: {
+            startsWith: query,
+            mode: "insensitive"
+          }
+        }
+      ]
+    },
+    select: {
+      profilePic: true,
+      username: true,
+      name: true
+    },
+    take: 10,
+    skip: 0
+  })
+  console.log("users", users);
+
+  return c.json(users);
+
+
+})
