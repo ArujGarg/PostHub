@@ -18,10 +18,11 @@ type PostType = {
 }
 
 export const usePosts = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState<PostType[]>([]);
 
     const fetchPosts = useCallback(() => {
+        setLoading(true);
         axios.get(`${BACKEND_URL}/api/v1/post/home`, {
             headers: {
                 Authorization: localStorage.getItem("token")
@@ -37,11 +38,11 @@ export const usePosts = () => {
 
     useEffect(() => {
         fetchPosts();
-    }, [[posts]])
+    }, [])
 
     const addNewPost = (newPost: PostType) => {
         setPosts(prevPosts => [newPost, ...prevPosts])
-        fetchPosts()
+        fetchPosts();
     }
 
     return ({

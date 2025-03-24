@@ -1,8 +1,9 @@
 import { Hono } from "hono";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
+
 import { decode, sign, verify } from 'hono/jwt'
 import { signinInput, signupInput } from "@arujgarg/posthub-common";
+import { PrismaClient } from "@prisma/client/extension";
+import prisma from "../lib/prisma";
 
 export const userRouter = new Hono<{
     Bindings: {
@@ -12,9 +13,6 @@ export const userRouter = new Hono<{
 }>();
 
 userRouter.post('/signup', async (c) => {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate())
   
   const body = await c.req.json();
   const {success} = signupInput.safeParse(body);
@@ -50,9 +48,7 @@ userRouter.post('/signup', async (c) => {
 })
   
 userRouter.post('/signin', async (c) => {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate())
+
   const body = await c.req.json();
   const { success } = signinInput.safeParse(body);
   if(!success){
@@ -88,6 +84,7 @@ userRouter.post('/signin', async (c) => {
 
   } catch (error) {
     c.status(411);
+    console.log(error)
     return c.text("error while signing in");
   }
 })
@@ -95,9 +92,6 @@ userRouter.post('/signin', async (c) => {
 
 
 userRouter.get('/search', async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-}).$extends(withAccelerate())
 
   const query = c.req.query('query') || ""
   if(!query) return c.json([]);
