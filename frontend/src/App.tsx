@@ -6,6 +6,7 @@ import { SigninFormDemo } from './pages/Signin'
 import { Home } from './pages/Home'
 import { Post } from './pages/Post'
 import { SearchComp } from './pages/Search'
+import { Chat } from './pages/Chat'
 
 
 
@@ -13,18 +14,17 @@ function App() {
 
 
   return (
-    <div>
-      <BrowserRouter> 
-        <Routes>
-          <Route path='/landing' element={<BackgroundBeamsDemo />} />
-          <Route path='/signup' element={<SignupFormDemo />} />
-          <Route path='/signin' element={<SigninFormDemo />} />
-          <Route path='/home' element={<Home />} />
-          <Route path='/post/:id' element={<Post/>} />
-          <Route path='/search' element={<SearchComp />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter> 
+      <Routes>
+        <Route path='/landing' element={<BackgroundBeamsDemo />} />
+        <Route path='/signup' element={<SignupFormDemo />} />
+        <Route path='/signin' element={<SigninFormDemo />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/post/:id' element={<Post/>} />
+        <Route path='/search' element={<SearchComp />} />
+        <Route path='/chat' element={<Chat />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -27,6 +27,11 @@ export function Post(){
             </div>
         )
     }
+    
+    if(!post){
+        return <p>Post not found</p>
+    }
+
     return <div>
          <div className="bg-neutral-900 flex justify-center w-full h-screen text-white grid grid-cols-12">
             <div className="col-span-3">
@@ -35,18 +40,7 @@ export function Post(){
             </div>
             <div className="h-screen col-span-6  flex flex-col border-x border-neutral-800">
                 <div className=" border-x border-neutral-800">
-                    <PostCard 
-                    id={Number(id)}
-                    profilePic={post?.author.profilePic || ""}
-                    name={post?.author.name || "Anonymous"}
-                    username={post?.author.username || "Anonymous"}
-                    likeCount={post?.likeCount || 0}
-                    commentCount={post?.commentCount || 0}
-                    content={post?.content || ""}
-                    publishedAt={post?.publishedAt || ""}
-                    updatedAt={post?.updatedAt || ""}
-                    
-                    />
+                    <PostCard postId={post?.id} />
                 </div>
                 <div className="flex items-center justify-center text-3xl mt-20">
                     Comment section coming soon!!!

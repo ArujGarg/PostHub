@@ -1,51 +1,38 @@
 import { Link } from "react-router-dom"
+import { usePostStore } from "../src/zustand/postStore"
 
 
-interface PostCardProps {
-    id: number
-    profilePic: string,
-    username: string,
-    name: string,
-    likeCount: number,
-    commentCount: number,
-    content: string,
-    publishedAt: string,
-    updatedAt: string,
-}
+export function PostCard({postId}: {postId: number}){
 
-export function PostCard({
-    id,
-    profilePic,
-    username,
-    name,
-    likeCount,
-    commentCount,
-    content,
-    publishedAt,
-    updatedAt
-}: PostCardProps){
-
+    const post = usePostStore((state) => state.posts.find(post => post.id === postId));
+    const toggleLike = usePostStore((state) => state.toggleLike);
+    const fetchUserPosts = usePostStore((state) => state.fetchUserPosts);
+    const userId = usePostStore((state) => state.posts.find(post => post.id === postId))?.author.authorId ?? -1;
 
     return ( 
-        <Link to={`/post/${id}`} className="block">
+        <Link to={`/post/${postId}`}>
             <div className="border border-neutral-800 mx-2 mt-2 rounded-lg cursor-pointer ">
-                <div className="flex">
-                    <div  onClick={(e) => e.preventDefault()}>
+                <div onClick={(e) => {
+                        e.preventDefault()
+                        fetchUserPosts(userId)
+                    }} 
+                    className="flex">
+                    <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-14 cursor-pointer">
                             <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <div  onClick={(e) => e.preventDefault()} className="m-2 cursor-pointer">
+                    <div className="m-2 cursor-pointer">
                         <div>
-                            {name}
+                            {post?.author.name}
                         </div>
                         <div>
-                            @{username}
+                            @{post?.author.username}
                         </div>
                     </div>
                 </div>
                 <div className="mt-2 mx-4">
-                    {content}
+                    {post?.content}
                 </div>
                 <div className="flex">
                     <div className="flex  mt-4 mx-4 mb-2">
@@ -55,15 +42,19 @@ export function PostCard({
                             </svg>
                             
                             <div>
-                                {commentCount}
+                                {post?.commentCount}
                             </div>
                         </div>
-                        <div onClick={(e) => e.preventDefault()} className="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="white" className="size-5 cursor-pointer hover:fill-purple-700 fill-none">
+                        <div className="flex items-center">
+                            <svg onClick={(e) =>{
+                                    e.preventDefault();
+                                    toggleLike(postId)
+                                }} 
+                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="white" className="size-5 cursor-pointer hover:fill-purple-700 fill-none">
                             <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                             </svg>
                             <div>
-                            {likeCount}
+                                {post?.likeCount}
                             </div>
                         </div>
                     </div>

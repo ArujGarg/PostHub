@@ -1,48 +1,26 @@
-import axios from "axios";
-import { useCallback, useEffect, useState } from "react"
-import { BACKEND_URL } from "../../config";
+import { useEffect, useState } from "react"
+import { usePostStore } from "../zustand/postStore";
+import { PostInterface } from "../model/Post";
 
-
-type PostType = {
-    author: {
-        profilePic: string,
-        username: string,
-        name: string
-    }
-    likeCount: number,
-    commentCount: number,
-    content: string,
-    publishedAt: string,
-    updatedAt: string,
-    id: number
-}
 
 export const usePosts = () => {
     const [loading, setLoading] = useState(false);
-    const [posts, setPosts] = useState<PostType[]>([]);
-
-    const fetchPosts = useCallback(() => {
-        setLoading(true);
-        axios.get(`${BACKEND_URL}/api/v1/post/home`, {
-            headers: {
-                Authorization: localStorage.getItem("token")
-            }
-        }).then(response => {
-            setPosts(response.data.posts);
-        }).catch(error => {
-            console.error(error);
-            setLoading(false)
-        }).finally(() => setLoading(false))
-    }, [])
+    const posts = usePostStore((state) => state.posts);
+    const fetchPosts = usePostStore((state) => state.fetchPosts);
+    const addPost = usePostStore((state) => state.addPost);
     
-
+    
     useEffect(() => {
-        fetchPosts();
+        const fetchData = async () => {
+            setLoading(true);
+            await fetchPosts()
+            setLoading(false);
+        }
+        fetchData();
     }, [])
 
-    const addNewPost = (newPost: PostType) => {
-        setPosts(prevPosts => [newPost, ...prevPosts])
-        fetchPosts();
+    const addNewPost = (newPost: PostInterface) => {
+        addPost(newPost)
     }
 
     return ({
@@ -53,22 +31,19 @@ export const usePosts = () => {
 }
 
 
-export const usePost = (id: number) => {
+export const usePost = (postId: number) => {
     const [loading, setLoading] = useState(true);
-    const [post, setPost] = useState<PostType>();
+    const post = usePostStore((state) => state.posts.find(post => post.id === postId));
+    const fetchSinglePost = usePostStore((state) => state.fetchSinglePost);
 
     useEffect(() => {
-        axios.get(`${BACKEND_URL}/api/v1/post/${id}`, {
-            headers: {
-                Authorization: localStorage.getItem("token")
-            }
-        })
-        .then(response => {
-            setPost(response.data)
-            setLoading(false)
-        })
-
-    }, [id]);
+        const fetchData = async () => {
+            setLoading(true);
+            await fetchSinglePost(postId);
+            setLoading(false);
+        }
+        fetchData();
+    }, [postId])
 
     return {
         loading,
