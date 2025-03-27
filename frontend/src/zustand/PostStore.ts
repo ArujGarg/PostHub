@@ -28,50 +28,71 @@ export const usePostStore = create<PostState>((set) => ({
         posts: state.posts.filter((post) => post.id != postId)
     })),
 
-    toggleLike: (postId: number) =>
+    toggleLike: async (postId: number) => {
         set((state) => ({
-          posts: state.posts.map((post) =>
-            post.id === postId
-              ? {
-                  ...post,
-                  likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
-                  liked: !post.liked
-                }
-              : post
-          ),
-        })),
+            posts: state.posts.map((post) => 
+                post.id === postId ? 
+            {
+                ...post,
+                likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
+                liked: !post.liked
+            } : post)
+        }))
 
-        fetchPosts: async () => {
-            const response = await axios.get(`${BACKEND_URL}/api/v1/post/home`, {
-                headers: {
-                    Authorization: localStorage.getItem("token")
-                }
-            })
-            console.log(response);
-            const data = response.data.posts;
-            set({posts: data})
-        },
-
-        fetchUserPosts: async (userId: number) => {
-            const response = await axios.get(`${BACKEND_URL}/api/v1/post?userId=${userId}`, {
-                headers: {
-                    Authorization: localStorage.getItem("token")
-                }
-            })
-            const data = response.data
-            console.log(data || 0)
-            set({userPosts: data});
-        },
-
-        fetchSinglePost: async (postId: number) => {
-            const response = await axios.get(`${BACKEND_URL}/api/v1/post/${postId}`, {
-                headers: {
-                    Authorization: localStorage.getItem("token")
-                }
-            })
-            const data = response.data;
-            set({singlePost: data})
+        try {
+            const post = usePostStore.getState().posts.find((post) => post.id === postId)
+            //sending requests to like when post is liked because liked: !post.liked in the above code.
+            if(post?.liked){
+                await axios.post(`${BACKEND_URL}/api/v1/post/${postId}/like`, {}, {
+                    headers: {
+                        Authorization: localStorage.getItem("token")
+                    }
+                })
+            }
+            else {
+                await axios.post(`${BACKEND_URL}/api/v1/post/${postId}/unlike`, {}, {
+                    headers: {
+                        Authorization: localStorage.getItem("token")
+                    }
+                })
+            }
+        } catch (error) {
+            console.log("error liking/unliking", error);
+            return null
         }
+    },
+
+    fetchPosts: async () => {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/post/home`, {
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
+        console.log(response);
+        const data = response.data.posts;
+        set({posts: data})
+    },
+
+    fetchUserPosts: async (userId: number) => {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/post?userId=${userId}`, {
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
+        const data = response.data
+        console.log(data || 0)
+        set({userPosts: data});
+    },
+
+    fetchSinglePost: async (postId: number) => {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/post/${postId}`, {
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
+        const data = response.data;
+        set({singlePost: data})
+    }
 
 
 

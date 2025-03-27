@@ -1,6 +1,7 @@
 
 export function ProfileSection(){
-    
+
+
     return (
         <div className="bg-neutral-900 border border-neutral-800 w-full h-1/3 flex flex-col items-center ">
             <div className="flex  items-center flex-1">

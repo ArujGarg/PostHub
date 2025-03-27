@@ -20,6 +20,7 @@ postRouter.use('/*', async (c, next) => {
     const authHeader = await c.req.header("Authorization") || "";
     try {
         const user = await verify(authHeader, c.env.JWT_SECRET);
+        console.log(user)
         if(user){
             c.set("authorId", user.id as string);
             await next();
@@ -32,6 +33,7 @@ postRouter.use('/*', async (c, next) => {
         }        
     } catch (error) {
         c.status(403);
+        console.log("the error im getting is", error)
         return c.json({
             message: "you are not logged in"
         })
@@ -148,6 +150,71 @@ postRouter.get('/:id', async (c) => {
         }
     })
     return c.json(post);
+})
+
+postRouter.post('/:id/like', async (c) => {
+    const postId = Number(c.req.param("id"));
+    if(!postId){
+        return c.json("invalid post id")
+    }
+
+    const post = await prisma.post.findFirst({
+        where: {
+            id: postId
+        }
+    })
+    if(!post){
+        return c.json("post not found")
+    }
+
+    const updatedPost = await prisma.post.update({
+        where: {
+            id: postId
+        },
+        data: {
+            likeCount: post.likeCount + 1
+        }
+    })
+
+    return c.json({
+        message: "post liked",
+        likeCount: updatedPost.likeCount
+    })
+})
+
+
+postRouter.post('/:id/unlike', async (c) => {
+    const postId = Number(c.req.param("id"))
+    if(!postId){
+        return c.json({
+            message: "invalid postId"
+        })
+    }
+
+    const post = await prisma.post.findFirst({
+        where: {
+            id: postId
+        }
+    })
+    if(!post){
+        return c.json({
+            message: "post not found"   
+        })
+    }
+
+    const updatedPost = await prisma.post.update({
+        where: {
+            id: postId
+        },
+        data: {
+            likeCount: post.likeCount - 1
+        }
+    })
+
+    return c.json({
+        message: "post unliked",
+        likeCount: updatedPost.likeCount
+    })
 })
 
 
