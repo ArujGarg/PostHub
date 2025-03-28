@@ -98,6 +98,7 @@ postRouter.put('/', async (c) => {
 
 //add pagination here
 postRouter.get('/home', async (c) => {
+    const userId = c.get("authorId");
 
     const posts = await prisma.post.findMany({
         select: {
@@ -109,6 +110,14 @@ postRouter.get('/home', async (c) => {
             authorId: true,
             likeCount: true,
             commentCount: true,
+            likes: {
+                where: {
+                    id: Number(userId)
+                },
+                select: {
+                    id: true
+                }
+            },
             author: {
                 select: {
                     name: true,
@@ -118,14 +127,20 @@ postRouter.get('/home', async (c) => {
             }
         }
     });
+
+    const postsWithLikes = posts.map((post) => ({
+        ...post,
+        isLiked: post.likes.length > 0
+    }))
+
     return c.json({
-        posts   
+        posts: postsWithLikes
     })
 })
 
 
 postRouter.get('/:id', async (c) => {
-
+    const userId = c.get("authorId");
     const id = c.req.param('id');
     const post = await prisma.post.findUnique({
         where: {
@@ -139,6 +154,14 @@ postRouter.get('/:id', async (c) => {
             commentCount: true,
             authorId: true,
             id: true,
+            likes: {
+                where: {
+                    userId: Number(userId)
+                },
+                select: {
+                    id: true
+                }
+            },
             author: {
                select: {
                 name: true,
@@ -149,16 +172,26 @@ postRouter.get('/:id', async (c) => {
 
         }
     })
-    return c.json(post);
+
+    if(!post){
+        return c.json({message: "post not found"})
+    }
+
+    return c.json({
+        post,
+        isLiked: post.likes.length > 0
+    });
 })
 
 postRouter.post('/:id/like', async (c) => {
     const postId = Number(c.req.param("id"));
-    if(!postId){
+    const userId = c.get("authorId");
+
+    if(isNaN(postId)){
         return c.json("invalid post id")
     }
 
-    const post = await prisma.post.findFirst({
+    const post = await prisma.post.findUnique({
         where: {
             id: postId
         }
@@ -167,12 +200,36 @@ postRouter.post('/:id/like', async (c) => {
         return c.json("post not found")
     }
 
+    const isLiked = await prisma.like.findUnique({
+        where: {
+            userId_postId: {
+                userId: Number(userId),
+                postId: postId
+            }
+        }
+    })
+
+    if(isLiked){
+        return c.json({
+            message: "you already liked the post",
+            likeCount: post.likeCount,
+            isLiked: true
+        })
+    }
+
+    await prisma.like.create({
+        data: {
+            userId: Number(userId),
+            postId: postId
+        }
+    })
+
     const updatedPost = await prisma.post.update({
         where: {
             id: postId
         },
         data: {
-            likeCount: post.likeCount + 1
+            likeCount: {increment: 1}
         }
     })
 
@@ -185,13 +242,15 @@ postRouter.post('/:id/like', async (c) => {
 
 postRouter.post('/:id/unlike', async (c) => {
     const postId = Number(c.req.param("id"))
-    if(!postId){
+    const userId = c.get("authorId")
+
+    if(isNaN(postId)){
         return c.json({
             message: "invalid postId"
         })
     }
 
-    const post = await prisma.post.findFirst({
+    const post = await prisma.post.findUnique({
         where: {
             id: postId
         }
@@ -202,12 +261,33 @@ postRouter.post('/:id/unlike', async (c) => {
         })
     }
 
+    const isLiked = await prisma.like.findUnique({
+        where: {
+            userId_postId:{
+                userId: Number(userId),
+                postId: postId
+            }
+        }
+    })
+
+    if(!isLiked){
+        return c.json({
+            message: "the post is not liked so cant unlike"
+        })
+    }
+
+    await prisma.like.delete({
+        where: {
+            id: isLiked.id //isliked has the whole row of the like table 
+        }
+    })
+
     const updatedPost = await prisma.post.update({
         where: {
             id: postId
         },
         data: {
-            likeCount: post.likeCount - 1
+            likeCount: {decrement :1}
         }
     })
 

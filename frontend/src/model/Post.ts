@@ -11,7 +11,8 @@ export interface PostInterface {
     commentCount: number,
     id: number,
     updatedAt: string,
-    publishedAt: string
-    liked: boolean
+    publishedAt: string,
+    liked: boolean,
 }
+
 

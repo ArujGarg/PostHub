@@ -35,14 +35,15 @@ export const usePostStore = create<PostState>((set) => ({
             {
                 ...post,
                 likeCount: post.liked ? post.likeCount - 1 : post.likeCount + 1,
-                liked: !post.liked
+                liked: (post.liked === undefined) ? true : !post.liked
             } : post)
         }))
 
         try {
             const post = usePostStore.getState().posts.find((post) => post.id === postId)
+            if(!post) return;
             //sending requests to like when post is liked because liked: !post.liked in the above code.
-            if(post?.liked){
+            if(post.liked){
                 await axios.post(`${BACKEND_URL}/api/v1/post/${postId}/like`, {}, {
                     headers: {
                         Authorization: localStorage.getItem("token")
@@ -68,8 +69,9 @@ export const usePostStore = create<PostState>((set) => ({
                 Authorization: localStorage.getItem("token")
             }
         })
-        console.log(response);
+        console.log("response", response);
         const data = response.data.posts;
+        console.log("data", data);
         set({posts: data})
     },
 

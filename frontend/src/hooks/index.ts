@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { usePostStore } from "../zustand/postStore";
+
 import { PostInterface } from "../model/Post";
+import { usePostStore } from "../zustand/PostStore";
 
 
 export const usePosts = () => {
