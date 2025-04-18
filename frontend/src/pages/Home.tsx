@@ -2,7 +2,6 @@ import { Following } from "../../components/Following";
 import { ProfileSection } from "../../components/ProfileSection";
 import { SearchUser } from "../../components/SearchUser";
 import { Sidebar } from "../../components/Sidebar";
-import { UsersList } from "./Chat";
 
 export function Home(){
     return (

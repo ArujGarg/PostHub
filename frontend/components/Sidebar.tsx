@@ -47,7 +47,7 @@ export function Sidebar(){
                     </div>
                 </div>
             </div>
-            <div className="m-2">
+            <div className="m-2 mt-8">
                 <button onClick={() => {
                     setShowModal(true)
                 }} type="button" className="text-white w-40 bg-purple-500 focus:outline-none  font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-purple-700 cursor-pointer">Post</button>

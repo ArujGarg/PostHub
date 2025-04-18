@@ -1,4 +1,5 @@
 import { ProfileSection } from "../../components/ProfileSection"
+import { SearchUser } from "../../components/SearchUser"
 import { Sidebar } from "../../components/Sidebar"
 
 export function Chat(){
@@ -12,24 +13,12 @@ export function Chat(){
                         <Messaging />
                     </div>
                     <div className="h-screen col-span-3 flex justify-center  border border-neutral-800">
-                        <UsersList />
+                       <SearchUser />
                     </div>
                 </div>
     )
 }
 
-export function UsersList(){
-    return (
-        <div>
-            <div className="flex justify-center my-2">
-                <input 
-                className="mb-2 border min-w-xs rounded-md p-2 border-neutral-700" 
-                type="text" 
-                placeholder="Search users"></input>
-            </div>
-        </div>
-    )
-}
 
 function Messaging(){
     return (
