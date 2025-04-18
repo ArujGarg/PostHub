@@ -7,14 +7,14 @@
   "dependencies": {
     "@arujgarg/posthub-common": "^1.0.0",
     "@prisma/adapter-pg": "^6.5.0",
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.6.0",
     "@prisma/extension-accelerate": "^1.3.0",
     "hono": "^4.6.20",
-    "pg": "^8.14.1",
-    "prisma": "^6.5.0"
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250109.0",
+    "prisma": "^6.6.0",
     "wrangler": "^3.109.2"
   }
 }

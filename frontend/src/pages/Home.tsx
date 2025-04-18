@@ -1,6 +1,7 @@
 import { Following } from "../../components/Following";
 import { ProfileSection } from "../../components/ProfileSection";
 import { Sidebar } from "../../components/Sidebar";
+import { UsersList } from "./Chat";
 
 export function Home(){
     return (
@@ -17,8 +18,8 @@ export function Home(){
                     <Following  />
                 </div>
             </div>
-            <div className="h-screen col-span-3 flex justify-center items-center text-3xl border border-neutral-800">
-                Will add something here...
+            <div className="h-screen col-span-3  min-w-xs flex justify-center  border border-neutral-800">
+                <UsersList />
             </div>
         </div>
     )
