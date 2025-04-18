@@ -5,8 +5,8 @@ import { SignupFormDemo } from './pages/Signup'
 import { SigninFormDemo } from './pages/Signin'
 import { Home } from './pages/Home'
 import { Post } from './pages/Post'
-import { SearchComp } from './pages/Search'
 import { Chat } from './pages/Chat'
+import { ProfilePage } from './pages/Profile'
 
 
 
@@ -21,8 +21,8 @@ function App() {
         <Route path='/signin' element={<SigninFormDemo />} />
         <Route path='/home' element={<Home />} />
         <Route path='/post/:id' element={<Post/>} />
-        <Route path='/search' element={<SearchComp />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/profile' element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   )
