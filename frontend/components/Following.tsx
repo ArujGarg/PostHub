@@ -1,3 +1,4 @@
+
 import { usePosts } from "../src/hooks";
 import { PostCard } from "./PostCard";
 
@@ -14,9 +15,12 @@ export function Following(){
            <Skeleton />
         </div>    
     }
+
+  
+
     return (
         <div className="bg-neutral-900 w-full h-full border-x border-neutral-800">
-            {posts.slice(0).reverse().map(post => <PostCard postId={post.id} />)}
+            {posts.slice(0).reverse().map(post => <PostCard key={post.id} postId={post.id} />)}
         </div>
     )
 }

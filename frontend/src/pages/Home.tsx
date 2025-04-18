@@ -1,9 +1,19 @@
+import { useEffect } from "react";
 import { Following } from "../../components/Following";
 import { ProfileSection } from "../../components/ProfileSection";
 import { SearchUser } from "../../components/SearchUser";
 import { Sidebar } from "../../components/Sidebar";
+import { useNavigate } from "react-router-dom";
 
 export function Home(){
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!localStorage.getItem("token")){
+            navigate("/signin")
+        }
+    }, [])
+
     return (
         <div className="bg-neutral-900 flex justify-center w-full h-screen text-white grid grid-cols-12">
             <div className="col-span-3">

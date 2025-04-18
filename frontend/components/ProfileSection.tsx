@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 export function ProfileSection(){
 
@@ -19,9 +20,15 @@ export function ProfileSection(){
                     </div>
                </div>
             </div>
-            <div className="mb-8">
-                <button type="button" className="text-white w-40 bg-red-500 focus:outline-none  font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-red-700 cursor-pointer">Log Out</button>
-            </div>
+            <Link to={'/landing'}>
+                <div className="mb-8">
+                    <button 
+                    onClick={() => {
+                        localStorage.removeItem("token")
+                    }}
+                    type="button" className="text-white w-40 bg-red-500 focus:outline-none  font-medium rounded-full text-md px-10 py-3 text-center mb-2  hover:bg-red-700 cursor-pointer">Log Out</button>
+                </div>
+            </Link>
         </div>
     )
 }
