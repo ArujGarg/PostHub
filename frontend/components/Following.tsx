@@ -25,7 +25,7 @@ export function Following(){
     )
 }
 
-function Skeleton(){
+export function Skeleton(){
     return (
         <div>
             <div className="w-[97.7%] rounded-md border border-neutral-800 p-4 m-2 ">

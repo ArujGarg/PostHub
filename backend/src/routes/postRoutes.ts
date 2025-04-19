@@ -15,6 +15,12 @@ export const postRouter = new Hono<{
     }
 }>();
 
+
+
+
+
+
+
 postRouter.use('/*', async (c, next) => {
     //this middleware should extract the authorid from the jwt and pass it down to the route handler
     const authHeader = await c.req.header("Authorization") || "";
@@ -40,7 +46,12 @@ postRouter.use('/*', async (c, next) => {
     }
 })
 
+
   
+
+
+
+
 postRouter.post('/', async (c) => {
     
     const body = await c.req.json();
@@ -70,6 +81,12 @@ postRouter.post('/', async (c) => {
     
 })
 
+
+
+
+
+
+
 postRouter.put('/', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -95,6 +112,12 @@ postRouter.put('/', async (c) => {
     }) 
     return c.json(post)
 })
+
+
+
+
+
+
 
 //add pagination here
 postRouter.get('/home', async (c) => {
@@ -137,6 +160,12 @@ postRouter.get('/home', async (c) => {
         posts: postsWithLikes
     })
 })
+
+
+
+
+
+
 
 
 postRouter.get('/:id', async (c) => {
@@ -182,6 +211,13 @@ postRouter.get('/:id', async (c) => {
         isLiked: post.likes.length > 0
     });
 })
+
+
+
+
+
+
+
 
 postRouter.post('/:id/like', async (c) => {
     const postId = Number(c.req.param("id"));
@@ -238,6 +274,12 @@ postRouter.post('/:id/like', async (c) => {
         likeCount: updatedPost.likeCount
     })
 })
+
+
+
+
+
+
 
 
 postRouter.post('/:id/unlike', async (c) => {
@@ -297,44 +339,13 @@ postRouter.post('/:id/unlike', async (c) => {
     })
 })
 
-postRouter.get("/:userId", async (c) => {
-    const userId = parseInt(c.req.param("userId"));
 
-    const userPosts = await prisma.post.findMany({
-        where: {
-            authorId: userId
-        },
-        select: {
-            content: true,
-            updatedAt: true,
-            createdAt: true,
-            likeCount: true,
-            commentCount: true,
-            authorId: true,
-            id: true,
-            likes: {
-                where: {
-                    userId: Number(userId)
-                },
-                select: {
-                    id: true
-                }
-            },
-            author: {
-               select: {
-                name: true,
-                username: true,
-                profilePic: true
-               }
-            }
-        }
-    })
 
-    if(!userPosts) return c.json({message: "user posts not found"})
 
-    return c.json({userPosts})
 
-    
-})
+
+
+
+
 
 

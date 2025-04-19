@@ -11,7 +11,7 @@ interface PostState {
     removePost: (postId: number) => void,
     toggleLike: (postId: number) => void,
     fetchPosts: () => Promise<void>,
-    fetchUserPosts: (userId: number) => Promise<void>,
+    fetchUserPosts: (username: string) => Promise<void>,
     fetchSinglePost: (postId: number) => Promise<void>
 }
 
@@ -75,8 +75,8 @@ export const usePostStore = create<PostState>((set) => ({
         set({posts: data})
     },
 
-    fetchUserPosts: async (userId: number) => {
-        const response = await axios.get(`${BACKEND_URL}/api/v1/post?userId=${userId}`, {
+    fetchUserPosts: async (username: string) => {
+        const response = await axios.get(`${BACKEND_URL}/api/v1/user/${username}`, {
             headers: {
                 Authorization: localStorage.getItem("token")
             }

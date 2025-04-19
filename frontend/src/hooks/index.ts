@@ -32,6 +32,31 @@ export const usePosts = () => {
 }
 
 
+export const useUserPosts = (username: string) => {
+    const [loading, setLoading] = useState(false);
+    const userPosts = usePostStore((state) => state.userPosts)
+    const fetchUserPosts = usePostStore((state) => state.fetchUserPosts)
+
+    useEffect(() => {
+        if(username == null) return;
+        const fetchData = async () => {
+            console.log("inside the useeffect")
+            setLoading(true)
+            console.log("before fetching user posts");
+            await fetchUserPosts(username);
+            console.log("after fetching user posts");
+            setLoading(false)
+        }
+        fetchData();
+    }, [username])
+
+    return ({
+        loading,
+        userPosts
+    })
+}
+
+
 export const usePost = (postId: number) => {
     const [loading, setLoading] = useState(true);
     const post = usePostStore((state) => state.posts.find(post => post.id === postId));

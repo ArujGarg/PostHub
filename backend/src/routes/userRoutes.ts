@@ -127,3 +127,67 @@ userRouter.get('/search', async (c) => {
 
 
 })
+
+
+
+
+
+
+
+userRouter.get("/:username", async (c) => {
+  const username = c.req.param("username");
+
+  const user = await prisma.user.findUnique({
+      where:{
+          username: username
+      },
+      select:{
+          id: true
+      }
+  })
+
+  if(!user) return c.json({message: "user not found"})
+
+  try {
+      
+  const userPosts = await prisma.post.findMany({
+      where: {
+          authorId: user.id
+      },
+      select: {
+          content: true,
+          updatedAt: true,
+          createdAt: true,
+          likeCount: true,
+          commentCount: true,
+          authorId: true,
+          id: true,
+          likes: {
+              where: {
+                  userId: user.id
+              },
+              select: {
+                  id: true
+              }
+          },
+          author: {
+             select: {
+              name: true,
+              username: true,
+              profilePic: true
+             }
+          }
+      }
+  })
+
+  if(!userPosts) return c.json({message: "user posts not found"})
+
+  return c.json({userPosts})
+
+  } catch (error) {
+      console.log("error fetching userPosts", error);
+      return c.json({message: "server error"})
+  }
+
+  
+})
