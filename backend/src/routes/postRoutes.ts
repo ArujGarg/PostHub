@@ -297,4 +297,44 @@ postRouter.post('/:id/unlike', async (c) => {
     })
 })
 
+postRouter.get("/:userId", async (c) => {
+    const userId = parseInt(c.req.param("userId"));
+
+    const userPosts = await prisma.post.findMany({
+        where: {
+            authorId: userId
+        },
+        select: {
+            content: true,
+            updatedAt: true,
+            createdAt: true,
+            likeCount: true,
+            commentCount: true,
+            authorId: true,
+            id: true,
+            likes: {
+                where: {
+                    userId: Number(userId)
+                },
+                select: {
+                    id: true
+                }
+            },
+            author: {
+               select: {
+                name: true,
+                username: true,
+                profilePic: true
+               }
+            }
+        }
+    })
+
+    if(!userPosts) return c.json({message: "user posts not found"})
+
+    return c.json({userPosts})
+
+    
+})
+
 
