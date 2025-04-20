@@ -32,7 +32,7 @@ export function SearchUser(){
                     </div>
                 </div>
                 <div>
-                    {users.map(user => <DisplayUsers user={user}/>)}
+                    {users.map(user => <DisplayUsers  user={user}/>)}
                 </div>
             </div>
         </div>
