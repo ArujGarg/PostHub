@@ -1,6 +1,39 @@
 import { Link } from "react-router-dom"
+import { jwtDecode, JwtPayload } from "jwt-decode"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
+
+
+interface JWTPayload {
+    id: string;
+    email: string;
+    iat: number;
+    exp: number;
+  }
+  
 export function ProfileSection(){
+    const [username, setUsername] = useState("");
+    const [userDisplayName, setUserDisplayName] = useState("");
+    const jwt = localStorage.getItem("token");
+    if(!jwt) return;
+    const decodedJWT = jwtDecode<JWTPayload>(jwt);
+    const userId =  decodedJWT.id
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/user/profile/${userId}`, {
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                }
+            })
+            console.log("reponse data is asdasdasdasdasdasd", response.data.user.username)
+            setUsername(response.data.user.username);
+            setUserDisplayName(response.data.user.name);
+        }
+        fetchData();
+    }, [])
 
 
     return (
@@ -13,10 +46,10 @@ export function ProfileSection(){
                 </div>
                <div className="m-2 cursor-pointer">
                     <div>
-                        arujgarg
+                        {userDisplayName}
                     </div>
                     <div>
-                        @arujgarg
+                        @{username}
                     </div>
                </div>
             </div>

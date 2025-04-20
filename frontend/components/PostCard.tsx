@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { usePostStore } from "../src/zustand/PostStore"
+import { Skeleton } from "./Following";
 
 
 export function PostCard({postId}: {postId: number}){
@@ -7,7 +8,7 @@ export function PostCard({postId}: {postId: number}){
     const post = usePostStore((state) => state.posts.find(post => post.id === postId));
     if(!post){
         return <div>
-            <p>Post not found</p>
+            <Skeleton />
         </div>
     };
     const toggleLike = usePostStore((state) => state.toggleLike);

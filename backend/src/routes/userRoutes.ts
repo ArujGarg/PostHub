@@ -189,5 +189,29 @@ userRouter.get("/:username", async (c) => {
       return c.json({message: "server error"})
   }
 
-  
+})
+
+userRouter.get("/profile/:id", async (c) => {
+  const userId = c.req.param("id");
+
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: Number(userId)
+      },
+      select: {
+        username: true,
+        name: true,
+        email: true
+      }
+    })
+    return c.json({
+      user
+    })
+
+  } catch (error) {
+    console.log("error fetching user details", error);
+    return c.json({message: "error fetching user"})
+  }
+
 })
