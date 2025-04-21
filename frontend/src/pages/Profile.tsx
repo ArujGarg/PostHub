@@ -51,7 +51,7 @@ export function ProfilePage(){
                 {username} Profile
             </div>
             <div className="flex-1 overflow-y-auto ">
-                {userPosts.map(post => <PostCard key={post.id} postId={post.id} />)}
+                {userPosts.slice(0).reverse().map(post => <PostCard key={post.id} postId={post.id} />)}
             </div>
         </div>
         <div className="h-screen col-span-3 w-full flex justify-center  border border-neutral-800">

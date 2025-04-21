@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { usePostStore } from "../src/zustand/PostStore"
 import { Skeleton } from "./Following";
 
 
 export function PostCard({postId}: {postId: number}){
-
+    const navigate = useNavigate();
     const post = usePostStore((state) => state.posts.find(post => post.id === postId));
     console.log("post is", post)
 
@@ -15,31 +15,34 @@ export function PostCard({postId}: {postId: number}){
     };
     const toggleLike = usePostStore((state) => state.toggleLike);
     const fetchUserPosts = usePostStore((state) => state.fetchUserPosts);
-    const userId = usePostStore((state) => state.posts.find(post => post.id === postId)?.authorId ?? -1);
+   
 
 
     return ( 
         <Link to={`/post/${postId}`}>
             <div className="border border-neutral-800 mx-2 mt-2 rounded-lg cursor-pointer ">
-                <div onClick={(e) => {
-                        e.preventDefault()
-                        fetchUserPosts(userId)
-                    }} 
-                    className="flex">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-14 cursor-pointer pl-1 pt-1">
-                            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                    <div className="m-2 cursor-pointer">
+                <Link to={`/${post.author.username}`}>
+                    <div onClick={(e) => {
+                            e.preventDefault()
+                            fetchUserPosts(post.author.username)
+                            navigate(`/${post.author.username}`)
+                        }} 
+                        className="flex">
                         <div>
-                            {post.author.name}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-14 cursor-pointer pl-1 pt-1">
+                                <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+                            </svg>
                         </div>
-                        <div>
-                            @{post.author.username}
+                        <div className="m-2 cursor-pointer">
+                            <div>
+                                {post.author.name}
+                            </div>
+                            <div>
+                                @{post.author.username}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </Link>
                 <div className="mt-2 mx-4">
                     {post.content}
                 </div>

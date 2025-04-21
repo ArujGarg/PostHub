@@ -24,3 +24,26 @@ export const useUserId = (username: string) => {
         userId
     })
 }
+
+export const useUsername = (userId: number) => {
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        const fetchUsername = async () => {
+            const response = await axios.get(`${BACKEND_URL}/api/v1/user/profile/${userId}`, {
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                }
+            });
+            console.log("response isasdadasdasda", response)
+            const data = response.data;
+            setUsername(data.username) 
+        }
+        fetchUsername();
+    }, [])
+
+    return ({
+        username
+    })
+
+}
