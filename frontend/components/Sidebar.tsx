@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { BACKEND_URL } from "../config";
 import {  usePosts } from "../src/hooks";
 import {useNavigate} from "react-router-dom"
-import { jwtDecode, JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface JWTPayload {
     id: string;

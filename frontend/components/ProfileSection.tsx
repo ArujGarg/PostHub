@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { jwtDecode, JwtPayload } from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
