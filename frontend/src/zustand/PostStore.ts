@@ -21,7 +21,7 @@ export const usePostStore = create<PostState>((set) => ({
     singlePost: null,
 
     addPost: (post) => set((state) => ({
-        posts: [post, ...state.posts]
+        posts: [post,...state.posts]
     })),
 
     removePost: (postId) => set((state) => ({
@@ -82,7 +82,7 @@ export const usePostStore = create<PostState>((set) => ({
             }
         })
         const data = response.data
-        console.log(data.userPosts || 0)
+        console.log("user posts are", data.userPosts || 0)
         set({userPosts: data.userPosts});
     },
 
@@ -93,6 +93,7 @@ export const usePostStore = create<PostState>((set) => ({
             }
         })
         const data = response.data;
+        console.log("reposne data is", response.data)
         set({singlePost: data.post})
     }
 

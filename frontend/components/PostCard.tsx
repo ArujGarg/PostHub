@@ -6,6 +6,7 @@ import { Skeleton } from "./Following";
 export function PostCard({postId}: {postId: number}){
 
     const post = usePostStore((state) => state.posts.find(post => post.id === postId));
+    console.log("post is", post)
 
     if(!post){
         return <div>

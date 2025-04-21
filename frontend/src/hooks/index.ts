@@ -22,6 +22,7 @@ export const usePosts = () => {
 
     const addNewPost = (newPost: PostInterface) => {
         addPost(newPost)
+        fetchPosts();
     }
 
     return ({

@@ -14,6 +14,7 @@ export function ProfilePage(){
     console.log("userposts",userPosts)
     
     if(loading || !userPosts){
+
         return (
             <div className="bg-neutral-900 flex justify-center w-full h-screen text-white grid grid-cols-12">
             <div className="col-span-3">

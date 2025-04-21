@@ -11,7 +11,7 @@ interface JWTPayload {
     email: string;
     iat: number;
     exp: number;
-  }
+}
   
 export function ProfileSection(){
     const [username, setUsername] = useState("");
