@@ -1,5 +1,5 @@
 import BackgroundBeamsDemo from '../components/background-beams-demo'
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import './App.css'
 import { SignupFormDemo } from './pages/Signup'
 import { SigninFormDemo } from './pages/Signin'
@@ -16,6 +16,7 @@ function App() {
   return (
     <BrowserRouter> 
       <Routes>
+      <Route path="/" element={<Navigate to="/landing" />} />
         <Route path='/landing' element={<BackgroundBeamsDemo />} />
         <Route path='/signup' element={<SignupFormDemo />} />
         <Route path='/signin' element={<SigninFormDemo />} />
