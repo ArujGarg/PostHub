@@ -1,11 +1,11 @@
 
 export interface PostInterface {
     author: {
-        authorId: number
         username: string,
         name: string,
         profilePic: string
     },
+    authorId: number
     content: string,
     likeCount: number,
     commentCount: number,

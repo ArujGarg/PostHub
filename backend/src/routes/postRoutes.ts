@@ -69,6 +69,15 @@ postRouter.post('/', async (c) => {
             data: {
                 content: body.content,
                 authorId: Number(authorId)
+            }, 
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        username: true,
+                        profilePic: true
+                    }
+                }
             }  
         })
         if(post){

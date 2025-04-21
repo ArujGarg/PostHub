@@ -21,7 +21,7 @@ export const usePostStore = create<PostState>((set) => ({
     singlePost: null,
 
     addPost: (post) => set((state) => ({
-        posts: [...state.posts, post]
+        posts: [post, ...state.posts]
     })),
 
     removePost: (postId) => set((state) => ({

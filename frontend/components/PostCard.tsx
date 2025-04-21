@@ -6,6 +6,7 @@ import { Skeleton } from "./Following";
 export function PostCard({postId}: {postId: number}){
 
     const post = usePostStore((state) => state.posts.find(post => post.id === postId));
+
     if(!post){
         return <div>
             <Skeleton />
@@ -13,7 +14,8 @@ export function PostCard({postId}: {postId: number}){
     };
     const toggleLike = usePostStore((state) => state.toggleLike);
     const fetchUserPosts = usePostStore((state) => state.fetchUserPosts);
-    const userId = usePostStore((state) => state.posts.find(post => post.id === postId))?.author.authorId ?? -1;
+    const userId = usePostStore((state) => state.posts.find(post => post.id === postId)?.authorId ?? -1);
+
 
     return ( 
         <Link to={`/post/${postId}`}>

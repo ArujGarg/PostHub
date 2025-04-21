@@ -99,7 +99,9 @@ function PostComponent({setShowModal}: {setShowModal: (value: boolean) => void})
                                     Authorization: localStorage.getItem("token")
                                 }
                             }).then(response => {
-                                addNewPost(response.data.post)
+                                addNewPost(response.data)
+                                console.log("reponse data is 12312312311", response.data)
+                                console.log("post is", response.data.content)
                             }).catch(error => {
                                 console.error(error);
                                 setLoading(false)

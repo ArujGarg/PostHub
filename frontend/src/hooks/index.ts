@@ -40,11 +40,8 @@ export const useUserPosts = (username: string) => {
     useEffect(() => {
         if(username == null) return;
         const fetchData = async () => {
-            console.log("inside the useeffect")
             setLoading(true)
-            console.log("before fetching user posts");
             await fetchUserPosts(username);
-            console.log("after fetching user posts");
             setLoading(false)
         }
         fetchData();
